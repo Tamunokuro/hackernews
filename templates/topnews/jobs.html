@@ -1,0 +1,21 @@
+{% extends 'topnews/base.html' %}
+{% block title %}Jobs{% endblock %}
+{% block content %}
+{% if total_jobs > 0 %}
+{% for job in my_jobs %}
+<div class="container p-2">
+    <div class="list-group">
+        <a href="" class="list-group-item list-group-item-action" aria-current="true">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ job.job_title }}</h5>
+            <small>Posted by {{ job.job_poster }} at {{ job.created }}</small>
+          </div>
+          
+        </a>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<p class="container">No available jobs</p>
+{% endif %}
+{% endblock %}

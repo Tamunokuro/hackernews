@@ -1,0 +1,37 @@
+{% extends 'topnews/base.html' %}
+{% block title %}{{ story|title }}{% endblock %}
+{% block content %}
+<div class="container p-2">
+    <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+          <div class="d-flex w-100 justify-content-center">
+            <h5 class="mb-1">>Author : {{story.author|title}}</h5>
+            <p class="lead">{{ story.title }}</p>
+            <hr class="my-4">
+            <p>{{ story.story_link }}</p>
+            <p class="lead">
+              <a href="{% url 'topnews_api:createcomment' %}" class="btn btn-primary btn-sm mt-3" role="button" style="color: white;">Add comment</a>
+            </p>
+          </div>
+        </a>
+       
+      </div>
+      {% for comment in story_comments %}
+      <div class="colist-group pt-2">
+      <a href="{% url 'topnews_api:commentdetail' comment.id %}" class="list-group-item list-group-item-action" aria-current="true">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">Comment: {{ comment.comment }}</h5>
+          <small>commenter: {{ comment.commenter }}</small>
+        </div>
+      </a>
+
+      
+       
+         
+
+      </div>
+      
+    
+      <hr class="my-4">
+      {% endfor %}
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'topnews/base.html' %}
+{% block title %}HackerNews{% endblock %}
+
+{% block content %}
+{% if totalstories > 0 %}
+{% for topstory in topstories %}
+<div class="container p-2">
+    <div class="list-group">
+        <a href="{{ topstory.get_absolute_url }}" class="list-group-item list-group-item-action" aria-current="true">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ topstory.title }}</h5>
+            <small>Posted by {{ topstory.author }} at {{ topstory.created }}</small>
+          </div>
+          <p class="mb-1">{{ topstory.story_link}}</p>
+          <small>{{ topstory.comment }}</small>
+        </a>
+    </div>
+</div>
+{% endfor %}
+
+
+{% else %}
+    <p> There are no available stories </p>
+{% endif %}
+<div class="container">
+   {% if topstories.has_other_pages %}
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    {% if topstories.has_previous %}
+                      <li class="page-item"><a class="page-link" href="?page={{ topstories.previous_page_number }}" aria-label="Previous">
+                          <span aria-hidden="true" >&laquo;</span>
+                          <span class="sr-only">Previous</span>
+                          </a>
+                      </li>
+                    {% else %}
+                      <li class=" page-item disabled page-link"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in topstories.paginator.page_range %}
+                      {% if topstories.number == i %}
+                          <li class="active page-item page-link mr-5 text-end"><span style="color: lightblue;">{{ i }} <span class="sr-only">(current)</span></span></li>
+                      {% else %}
+                          <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+                    {% if topstories.has_next %}
+                      <li class="page-item"><a class="page-link" href="?page={{ topstories.next_page_number }}" aria-label="Next">
+                          <span aria-hidden="true" >&raquo;</span>
+                          <span class="sr-only">Next</span>
+                          </a>
+                      </li>
+                    {% else %}
+                      <li class=" page-item disabled page-link"><span>&raquo;</span></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+
+</div>
+   
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'topnews/base.html' %}
+{% block title %}Comments{% endblock %}
+{% block content %}
+{% if total_comments > 0 %}
+{% for comment in topcomments %}
+<div class="container p-2">
+    <div class="list-group">
+        <a href="{% url 'topnews_api:commentdetail' comment.id %}" class="list-group-item list-group-item-action" aria-current="true">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ comment.comment }}</h5>
+            <small>Posted by {{ comment.commenter }} {{ comment.created }}</small>
+          </div>
+        </a>
+       
+      </div>
+
+</div>
+{% endfor %}
+
+{% else %}
+    <p> There are no available comments </p>
+{% endif %}
+<div class="container">
+  {% if topcomments.has_other_pages %}
+           <nav aria-label="Page navigation example">
+               <ul class="pagination">
+                   {% if topcomments.has_previous %}
+                     <li class="page-item"><a class="page-link" href="?page={{ topcomments.previous_page_number }}" aria-label="Previous">
+                         <span aria-hidden="true" >&laquo;</span>
+                         <span class="sr-only">Previous</span>
+                         </a>
+                     </li>
+                   {% else %}
+                     <li class=" page-item disabled page-link"><span>&laquo;</span></li>
+                   {% endif %}
+                   {% for i in topcomments.paginator.page_range %}
+                     {% if topcomments == i %}
+                         <li class="active page-item page-link mr-5 text-end"><span style="color: lightblue;">{{ i }} <span class="sr-only">(current)</span></span></li>
+                     {% else %}
+                         <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                     {% endif %}
+                   {% endfor %}
+                   {% if topcomments.has_next %}
+                     <li class="page-item"><a class="page-link" href="?page={{ topcomments.next_page_number }}" aria-label="Next">
+                         <span aria-hidden="true" >&raquo;</span>
+                         <span class="sr-only">Next</span>
+                         </a>
+                     </li>
+                   {% else %}
+                     <li class=" page-item disabled page-link"><span>&raquo;</span></li>
+                   {% endif %}
+               </ul>
+           </nav>
+           {% endif %}
+
+</div>
+{% endblock %}
